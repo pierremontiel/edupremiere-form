@@ -23,22 +23,21 @@ async function handleSubmit(request, env) {
     const AIRTABLE_BASE_ID = env.AIRTABLE_BASE_ID;
     const AIRTABLE_TABLE_NAME = env.AIRTABLE_TABLE_NAME || "STUDENTS";
 
-    // IMPORTANT: these keys must match your exact Airtable column names
+    // Field names below match the STUDENTS table exactly
     const fields = {
-      "Full Name": data.fullName,
-      "Phone Number": data.phone,
+      "Nom et prénom": data.fullName,
+      "Numéro WhatsApp": data.phone,
       "Email": data.email || undefined,
-      "Nationality": data.nationality || undefined,
-      "Program Level": data.level || undefined,
-      "Program Interested": data.program || undefined,
+      "Nationalité": data.nationality || undefined,
+      "Niveau d'études souhaité en Malaisie": data.level || undefined,
+      "Nom de la Formation souhaité": data.program || undefined,
       "Année de rentrée": data.intake || undefined,
       "Source": data.source || undefined,
       "Stage": "Enquiry",
-      "Form Type Submitted": ["Short"],
     };
 
     if (data.ref) {
-      fields["Referral Code Used"] = data.ref;
+      fields["Numéro de Parrainage"] = data.ref;
     }
 
     Object.keys(fields).forEach(k => fields[k] === undefined && delete fields[k]);
