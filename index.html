@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edupremiere — Commencez votre parcours</title>
+<style>
+  :root {
+    --navy: #364169;
+    --teal: #369196;
+    --mint: rgba(54, 145, 150, 0.12);
+    --white: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(180deg, var(--mint) 0%, #ffffff 40%);
+    color: var(--navy);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    background: var(--white);
+    max-width: 480px;
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(54, 65, 105, 0.12);
+    overflow: hidden;
+  }
+  .header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 32px 28px 24px;
+    text-align: center;
+  }
+  .logo-img {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    margin-bottom: 14px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  }
+  .header h1 {
+    margin: 0 0 6px;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .header p {
+    margin: 0;
+    font-size: 14px;
+    color: #cfd6e8;
+  }
+  .body { padding: 28px; }
+  .field { margin-bottom: 18px; }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  input, select {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1.5px solid #dfe3ee;
+    border-radius: 8px;
+    font-size: 15px;
+    color: var(--navy);
+    background: #fafbfd;
+    transition: border-color 0.15s ease;
+    font-family: inherit;
+  }
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--teal);
+    background: var(--white);
+  }
+  .phone-row {
+    display: flex;
+    border: 1.5px solid #dfe3ee;
+    border-radius: 8px;
+    background: #fafbfd;
+    overflow: hidden;
+  }
+  .phone-row:focus-within { border-color: var(--teal); background: var(--white); }
+  .phone-row select {
+    flex: 0 0 100px;
+    border: none;
+    border-right: 1.5px solid #dfe3ee;
+    border-radius: 0;
+    background: transparent;
+  }
+  .phone-row input {
+    flex: 1;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+  }
+  .phone-row select:focus, .phone-row input:focus { outline: none; }
+  .required { color: var(--teal); }
+  button {
+    width: 100%;
+    background: var(--teal);
+    color: var(--white);
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: opacity 0.15s ease;
+  }
+  button:hover { opacity: 0.9; }
+  button:disabled { opacity: 0.6; cursor: not-allowed; }
+  .success, .error {
+    display: none;
+    text-align: center;
+    padding: 40px 28px;
+  }
+  .success h2 { color: var(--navy); margin-bottom: 10px; }
+  .success p, .error p { color: #5a6480; font-size: 14px; line-height: 1.5; }
+  .checkmark {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--mint); color: var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; margin: 0 auto 16px;
+  }
+  .error { color: #b23b3b; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <img src="logo.jpg" alt="Edupremiere" class="logo-img">
+    <div style="font-size:12px; letter-spacing:3px; color:#9aa4c4; font-weight:700; margin-bottom:10px;">EDUPREMIERE</div>
+    <h1>Commencez votre parcours vers la Malaisie</h1>
+    <p>En 30 secondes</p>
+  </div>
+
+  <div class="body" id="formWrap">
+    <form id="intakeForm">
+      <div class="field">
+        <label>Nom et Prénom <span class="required">*</span></label>
+        <input type="text" name="fullName" required autocomplete="name" placeholder="Entrez votre nom complet">
+      </div>
+
+      <div class="field">
+        <label>Numéro de téléphone <span class="required">*</span></label>
+        <div class="phone-row">
+          <select name="countryCode" required>
+            <option value="+221">🇸🇳 +221</option>
+            <option value="+225">🇨🇮 +225</option>
+            <option value="+223">🇲🇱 +223</option>
+            <option value="+224">🇬🇳 +224</option>
+            <option value="+227">🇳🇪 +227</option>
+            <option value="+241">🇬🇦 +241</option>
+            <option value="+237">🇨🇲 +237</option>
+            <option value="+226">🇧🇫 +226</option>
+            <option value="+228">🇹🇬 +228</option>
+            <option value="+229">🇧🇯 +229</option>
+            <option value="+212">🇲🇦 +212</option>
+            <option value="+213">🇩🇿 +213</option>
+            <option value="+216">🇹🇳 +216</option>
+            <option value="+33">🇫🇷 +33</option>
+            <option value="+60">🇲🇾 +60</option>
+            <option value="+other">🌍 Autre</option>
+          </select>
+          <input type="tel" name="phone" required placeholder="77 123 45 67" autocomplete="tel">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input type="email" name="email" autocomplete="email" placeholder="votre@email.com">
+      </div>
+
+      <div class="field">
+        <label>Nationalité <span class="required">*</span></label>
+        <select name="nationality" required>
+          <option value="" disabled selected></option>
+          <option>Sénégal</option>
+          <option>Côte d'Ivoire</option>
+          <option>Mali</option>
+          <option>Guinée</option>
+          <option>Niger</option>
+          <option>Gabon</option>
+          <option>Cameroun</option>
+          <option>Burkina Faso</option>
+          <option>Togo</option>
+          <option>Bénin</option>
+          <option>Maroc</option>
+          <option>Algérie</option>
+          <option>Tunisie</option>
+          <option>Autre</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Niveau d'étude souhaitée en Malaisie <span class="required">*</span></label>
+        <select name="level" required>
+          <option value="" disabled selected></option>
+          <option>Foundation (Prépa)</option>
+          <option>Diploma (Licence 2)</option>
+          <option>Bachelor (Licence 3)</option>
+          <option>Master Coursework</option>
+          <option>Master Research</option>
+          <option>PhD (Doctorat)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Nom de la Formation Souhaitée <span class="required">*</span></label>
+        <input type="text" name="program" required placeholder="Ex: Informatique, Gestion, Médecine...">
+      </div>
+
+      <div class="field">
+        <label>Rentrée souhaitée <span class="required">*</span></label>
+        <select name="intake" required>
+          <option value="" disabled selected></option>
+          <option>Septembre 2026</option>
+          <option>Février 2027</option>
+          <option>Septembre 2027</option>
+          <option>Je ne sais pas encore</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Comment avez-vous entendu parler de nous ?</label>
+        <select name="source">
+          <option value="" disabled selected></option>
+          <option value="Referral">Recommandation (Referral)</option>
+          <option value="Social Media">Réseaux sociaux</option>
+          <option value="Website">Site web</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Numéro de parrainage</label>
+        <input type="text" name="ref" placeholder="Si applicable">
+      </div>
+
+      <button type="submit" id="submitBtn">Envoyer</button>
+    </form>
+  </div>
+
+  <div class="success" id="successMsg">
+    <div class="checkmark">✓</div>
+    <h2>Merci !</h2>
+    <p>Notre équipe vous contactera sur WhatsApp ou par téléphone sous 24 heures.</p>
+  </div>
+
+  <div class="error" id="errorMsg">
+    <div class="checkmark">!</div>
+    <h2>Une erreur est survenue</h2>
+    <p>Veuillez réessayer, ou nous contacter directement sur WhatsApp.</p>
+  </div>
+</div>
+
+<script>
+document.getElementById('intakeForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  const form = e.target;
+  const data = {
+    fullName: form.fullName.value,
+    phone: form.countryCode.value + ' ' + form.phone.value,
+    email: form.email.value,
+    nationality: form.nationality.value,
+    level: form.level.value,
+    program: form.program.value,
+    intake: form.intake.value,
+    source: form.source.value,
+    // Manual referral code field, or auto-captured from URL (?ref=CODE) if present
+    ref: form.ref.value || new URLSearchParams(window.location.search).get('ref') || ''
+  };
+
+  try {
+    const res = await fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    if (!res.ok) throw new Error('Submission failed');
+
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  } catch (err) {
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('errorMsg').style.display = 'block';
+  }
+});
+</script>
+
+</body>
+</html>
