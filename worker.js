@@ -9,7 +9,10 @@ export default {
     if (url.pathname === "/api/submit-full" && request.method === "POST") {
       return handleFullSubmit(request, env);
     }
-
+    if (url.pathname === "/" && url.hostname === "inscription.edupremiere.com") {
+     return env.ASSETS.fetch(new Request(new URL("/full-form.html", request.url), request));
+   }
+    
     // Everything else: serve the static files (index.html, full-form.html, logo.jpg, etc.)
     return env.ASSETS.fetch(request);
   }
