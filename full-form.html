@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edupremiere — Dossier d'inscription complet</title>
+<style>
+  :root {
+    --navy: #364169;
+    --teal: #369196;
+    --mint: rgba(54, 145, 150, 0.12);
+    --white: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(180deg, var(--mint) 0%, #ffffff 40%);
+    color: var(--navy);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    background: var(--white);
+    max-width: 520px;
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(54, 65, 105, 0.12);
+    overflow: hidden;
+  }
+  .header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 32px 28px 24px;
+    text-align: center;
+  }
+  .logo-img {
+    width: 64px; height: 64px; border-radius: 14px;
+    margin: 0 auto 14px; display: block;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  }
+  .brandname {
+    font-size: 12px; letter-spacing: 3px; color: #9aa4c4;
+    font-weight: 700; margin-bottom: 10px;
+  }
+  .header h1 { margin: 0 0 6px; font-size: 21px; font-weight: 700; }
+  .header p { margin: 0; font-size: 14px; color: #cfd6e8; }
+  .body { padding: 28px; }
+  .section-title {
+    font-size: 13px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.5px; color: var(--teal);
+    margin: 28px 0 14px; padding-bottom: 8px;
+    border-bottom: 1.5px solid var(--mint);
+  }
+  .section-title:first-child { margin-top: 0; }
+  .field { margin-bottom: 16px; }
+  label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  input, select, textarea {
+    width: 100%; padding: 11px 12px; border: 1.5px solid #dfe3ee;
+    border-radius: 8px; font-size: 15px; color: var(--navy);
+    background: #fafbfd; font-family: inherit; transition: border-color .15s ease;
+  }
+  textarea { resize: vertical; min-height: 70px; }
+  input:focus, select:focus, textarea:focus {
+    outline: none; border-color: var(--teal); background: var(--white);
+  }
+  .phone-row {
+    display: flex; border: 1.5px solid #dfe3ee; border-radius: 8px;
+    background: #fafbfd; overflow: hidden;
+  }
+  .phone-row:focus-within { border-color: var(--teal); background: var(--white); }
+  .phone-row select { flex: 0 0 100px; border: none; border-right: 1.5px solid #dfe3ee; border-radius: 0; background: transparent; }
+  .phone-row input { flex: 1; border: none; border-radius: 0; background: transparent; }
+  .phone-row select:focus, .phone-row input:focus { outline: none; }
+  .required { color: var(--teal); }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  button {
+    width: 100%; background: var(--teal); color: var(--white); border: none;
+    padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 700;
+    cursor: pointer; margin-top: 10px;
+  }
+  button:hover { opacity: .9; }
+  button:disabled { opacity: .6; cursor: not-allowed; }
+  .success, .error { display: none; text-align: center; padding: 40px 28px; }
+  .checkmark {
+    width: 60px; height: 60px; border-radius: 50%; background: var(--mint);
+    color: var(--teal); display: flex; align-items: center; justify-content: center;
+    font-size: 28px; margin: 0 auto 16px;
+  }
+  .error { color: #b23b3b; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <img src="logo.jpg" alt="Edupremiere" class="logo-img">
+    <div class="brandname">EDUPREMIERE</div>
+    <h1>Dossier d'inscription complet</h1>
+    <p>Merci de compléter toutes les informations ci-dessous</p>
+  </div>
+
+  <div class="body" id="formWrap">
+    <form id="fullForm">
+
+      <div class="section-title">Informations personnelles</div>
+
+      <div class="field">
+        <label>Nom et prénom <span class="required">*</span></label>
+        <input type="text" name="fullName" required>
+      </div>
+
+      <div class="field">
+        <label>Numéro de téléphone (WhatsApp) <span class="required">*</span></label>
+        <div class="phone-row">
+          <select name="countryCode" required>
+            <option value="+221">🇸🇳 +221</option>
+            <option value="+225">🇨🇮 +225</option>
+            <option value="+223">🇲🇱 +223</option>
+            <option value="+224">🇬🇳 +224</option>
+            <option value="+227">🇳🇪 +227</option>
+            <option value="+241">🇬🇦 +241</option>
+            <option value="+237">🇨🇲 +237</option>
+            <option value="+226">🇧🇫 +226</option>
+            <option value="+228">🇹🇬 +228</option>
+            <option value="+229">🇧🇯 +229</option>
+            <option value="+212">🇲🇦 +212</option>
+            <option value="+213">🇩🇿 +213</option>
+            <option value="+216">🇹🇳 +216</option>
+            <option value="+33">🇫🇷 +33</option>
+            <option value="+60">🇲🇾 +60</option>
+            <option value="+other">🌍 Autre</option>
+          </select>
+          <input type="tel" name="phone" required placeholder="77 123 45 67">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Email <span class="required">*</span></label>
+        <input type="email" name="email" required>
+      </div>
+
+      <div class="field">
+        <label>Numéro de passeport <span class="required">*</span></label>
+        <input type="text" name="passportNumber" required>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label>Date de naissance <span class="required">*</span></label>
+          <input type="date" name="dob" required>
+        </div>
+        <div class="field">
+          <label>Sexe <span class="required">*</span></label>
+          <select name="sex" required>
+            <option value="" disabled selected></option>
+            <option>Male</option>
+            <option>Female</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Lieu de naissance <span class="required">*</span></label>
+        <input type="text" name="birthPlace" required>
+      </div>
+
+      <div class="field">
+        <label>Nationalité <span class="required">*</span></label>
+        <input type="text" name="nationality" required>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label>État civil <span class="required">*</span></label>
+          <select name="maritalStatus" required>
+            <option value="" disabled selected></option>
+            <option>Célibataire</option>
+            <option>Marié(e)</option>
+            <option>Divorcé(e)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Religion</label>
+          <input type="text" name="religion">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Adresse complète <span class="required">*</span></label>
+        <textarea name="address" required></textarea>
+      </div>
+
+      <div class="section-title">Projet d'études</div>
+
+      <div class="field">
+        <label>Niveau d'études souhaité en Malaisie <span class="required">*</span></label>
+        <select name="level" required>
+          <option value="" disabled selected></option>
+          <option>Foundation (Prépa)</option>
+          <option>Diploma (Licence 2)</option>
+          <option>Bachelor (licence 3)</option>
+          <option>Master Coursework</option>
+          <option>Master Research</option>
+          <option>PhD (Doctorat)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Nom de la Formation souhaité <span class="required">*</span></label>
+        <input type="text" name="program" required placeholder="Ex: Informatique, Gestion, Médecine...">
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label>Période de rentrée souhaitée <span class="required">*</span></label>
+          <select name="intakePeriod" required>
+            <option value="" disabled selected></option>
+            <option>January</option>
+            <option>February</option>
+            <option>March</option>
+            <option>April</option>
+            <option>May</option>
+            <option>June</option>
+            <option>July</option>
+            <option>August</option>
+            <option>September</option>
+            <option>October</option>
+            <option>November</option>
+            <option>December</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Année de rentrée <span class="required">*</span></label>
+          <select name="intakeYear" required>
+            <option value="" disabled selected></option>
+            <option>2026</option>
+            <option>2027</option>
+            <option>2028</option>
+            <option>2029</option>
+            <option>2030</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section-title">Parcours académique</div>
+
+      <div class="field">
+        <label>Nom du lycée <span class="required">*</span></label>
+        <input type="text" name="highSchool" required>
+      </div>
+
+      <div class="field">
+        <label>Diplôme obtenu (lycée) <span class="required">*</span></label>
+        <input type="text" name="highSchoolDiploma" required>
+      </div>
+
+      <div class="field">
+        <label>Nom de l'université</label>
+        <input type="text" name="university">
+      </div>
+
+      <div class="field">
+        <label>Diplôme obtenu (université)</label>
+        <input type="text" name="universityDiploma">
+      </div>
+
+      <div class="section-title">Contact d'urgence</div>
+
+      <div class="field">
+        <label>Nom du contact d'urgence <span class="required">*</span></label>
+        <input type="text" name="emName" required>
+      </div>
+
+      <div class="field">
+        <label>WhatsApp du contact d'urgence <span class="required">*</span></label>
+        <input type="tel" name="emPhone" required>
+      </div>
+
+      <div class="field">
+        <label>Email du contact d'urgence</label>
+        <input type="email" name="emEmail">
+      </div>
+
+      <div class="field">
+        <label>Numéro CNI/Passeport du contact d'urgence</label>
+        <input type="text" name="emIdNumber">
+      </div>
+
+      <div class="field">
+        <label>Profession du contact d'urgence</label>
+        <input type="text" name="emProfession">
+      </div>
+
+      <div class="field">
+        <label>Adresse du contact d'urgence</label>
+        <textarea name="emAddress"></textarea>
+      </div>
+
+      <button type="submit" id="submitBtn">Envoyer mon dossier</button>
+    </form>
+  </div>
+
+  <div class="success" id="successMsg">
+    <div class="checkmark">✓</div>
+    <h2>Merci !</h2>
+    <p>Votre dossier a bien été reçu. Notre équipe vous contactera prochainement.</p>
+  </div>
+
+  <div class="error" id="errorMsg">
+    <div class="checkmark">!</div>
+    <h2>Une erreur est survenue</h2>
+    <p>Veuillez réessayer, ou nous contacter directement sur WhatsApp.</p>
+  </div>
+</div>
+
+<script>
+document.getElementById('fullForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Envoi en cours...';
+
+  const form = e.target;
+  const data = {
+    fullName: form.fullName.value,
+    phone: form.countryCode.value + ' ' + form.phone.value,
+    email: form.email.value,
+    passportNumber: form.passportNumber.value,
+    dob: form.dob.value,
+    sex: form.sex.value,
+    birthPlace: form.birthPlace.value,
+    nationality: form.nationality.value,
+    maritalStatus: form.maritalStatus.value,
+    religion: form.religion.value,
+    address: form.address.value,
+    level: form.level.value,
+    program: form.program.value,
+    intakePeriod: form.intakePeriod.value,
+    intakeYear: form.intakeYear.value,
+    highSchool: form.highSchool.value,
+    highSchoolDiploma: form.highSchoolDiploma.value,
+    university: form.university.value,
+    universityDiploma: form.universityDiploma.value,
+    emName: form.emName.value,
+    emPhone: form.emPhone.value,
+    emEmail: form.emEmail.value,
+    emIdNumber: form.emIdNumber.value,
+    emProfession: form.emProfession.value,
+    emAddress: form.emAddress.value,
+  };
+
+  try {
+    const res = await fetch('/api/submit-full', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    if (!res.ok) throw new Error('Submission failed');
+
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  } catch (err) {
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('errorMsg').style.display = 'block';
+  }
+});
+</script>
+
+</body>
+</html>
