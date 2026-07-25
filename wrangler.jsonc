@@ -6,5 +6,9 @@
     "directory": ".",
     "binding": "ASSETS",
     "run_worker_first": ["/api/*", "/"]
+  },
+  "vars": {
+    "AIRTABLE_BASE_ID": "appIEjO6EflsBLYDa",
+    "AIRTABLE_TABLE_NAME": "STUDENTS"
   }
 }
