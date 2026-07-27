@@ -143,19 +143,20 @@
   <div class="header">
     <img src="logo.jpg" alt="Edupremiere" class="logo-img">
     <div style="font-size:12px; letter-spacing:3px; color:#9aa4c4; font-weight:700; margin-bottom:10px;">EDUPREMIERE</div>
-    <h1>Commencez votre parcours vers la Malaisie</h1>
-    <p>En 30 secondes</p>
+    <h1 data-i18n="title">Commencez votre parcours vers la Malaisie</h1>
+    <p data-i18n="subtitle">En 30 secondes</p>
+    <a href="#" id="langToggle" style="display:inline-block; margin-top:10px; font-size:12px; color:#cfd6e8; text-decoration:underline;"></a>
   </div>
 
   <div class="body" id="formWrap">
     <form id="intakeForm">
       <div class="field">
-        <label>Nom et Prénom <span class="required">*</span></label>
-        <input type="text" name="fullName" required autocomplete="name" placeholder="Entrez votre nom complet">
+        <label data-i18n="fullName">Nom et Prénom <span class="required">*</span></label>
+        <input type="text" name="fullName" required autocomplete="name" data-i18n-placeholder="fullNamePh" placeholder="Entrez votre nom complet">
       </div>
 
       <div class="field">
-        <label>Numéro de téléphone <span class="required">*</span></label>
+        <label data-i18n="phone">Numéro de téléphone <span class="required">*</span></label>
         <div class="phone-row">
           <select name="countryCode" required>
             <option value="+221">🇸🇳 +221</option>
@@ -173,105 +174,195 @@
             <option value="+216">🇹🇳 +216</option>
             <option value="+33">🇫🇷 +33</option>
             <option value="+60">🇲🇾 +60</option>
-            <option value="+other">🌍 Autre</option>
+            <option value="+254">🇰🇪 +254</option>
+            <option value="+971">🇦🇪 +971</option>
+            <option value="+966">🇸🇦 +966</option>
+            <option value="+974">🇶🇦 +974</option>
+            <option value="+965">🇰🇼 +965</option>
+            <option value="+968">🇴🇲 +968</option>
+            <option value="+973">🇧🇭 +973</option>
+            <option value="+962">🇯🇴 +962</option>
+            <option value="+961">🇱🇧 +961</option>
+            <option value="+20">🇪🇬 +20</option>
+            <option value="+964">🇮🇶 +964</option>
+            <option value="+967">🇾🇪 +967</option>
+            <option value="+other" data-i18n="other">🌍 Autre</option>
           </select>
           <input type="tel" name="phone" required placeholder="77 123 45 67" autocomplete="tel">
         </div>
       </div>
 
       <div class="field">
-        <label>Email</label>
+        <label data-i18n="email">Email</label>
         <input type="email" name="email" autocomplete="email" placeholder="votre@email.com">
       </div>
 
       <div class="field">
-        <label>Nationalité <span class="required">*</span></label>
+        <label data-i18n="nationality">Nationalité <span class="required">*</span></label>
         <select name="nationality" required>
           <option value="" disabled selected></option>
-          <option>Sénégal</option>
-          <option>Côte d'Ivoire</option>
-          <option>Mali</option>
-          <option>Guinée</option>
-          <option>Niger</option>
-          <option>Gabon</option>
-          <option>Cameroun</option>
-          <option>Burkina Faso</option>
-          <option>Togo</option>
-          <option>Bénin</option>
-          <option>Maroc</option>
-          <option>Algérie</option>
-          <option>Tunisie</option>
-          <option>Autre</option>
+          <option value="Sénégal" data-i18n="Sénégal">Sénégal</option>
+          <option value="Côte d'Ivoire" data-i18n="Côte d'Ivoire">Côte d'Ivoire</option>
+          <option value="Mali" data-i18n="Mali">Mali</option>
+          <option value="Guinée" data-i18n="Guinée">Guinée</option>
+          <option value="Niger" data-i18n="Niger">Niger</option>
+          <option value="Gabon" data-i18n="Gabon">Gabon</option>
+          <option value="Cameroun" data-i18n="Cameroun">Cameroun</option>
+          <option value="Burkina Faso" data-i18n="Burkina Faso">Burkina Faso</option>
+          <option value="Togo" data-i18n="Togo">Togo</option>
+          <option value="Bénin" data-i18n="Bénin">Bénin</option>
+          <option value="Maroc" data-i18n="Maroc">Maroc</option>
+          <option value="Algérie" data-i18n="Algérie">Algérie</option>
+          <option value="Tunisie" data-i18n="Tunisie">Tunisie</option>
+          <option value="Kenya" data-i18n="Kenya">Kenya</option>
+          <option value="Émirats Arabes Unis" data-i18n="Émirats Arabes Unis">Émirats Arabes Unis</option>
+          <option value="Arabie Saoudite" data-i18n="Arabie Saoudite">Arabie Saoudite</option>
+          <option value="Qatar" data-i18n="Qatar">Qatar</option>
+          <option value="Koweït" data-i18n="Koweït">Koweït</option>
+          <option value="Oman" data-i18n="Oman">Oman</option>
+          <option value="Bahreïn" data-i18n="Bahreïn">Bahreïn</option>
+          <option value="Jordanie" data-i18n="Jordanie">Jordanie</option>
+          <option value="Liban" data-i18n="Liban">Liban</option>
+          <option value="Égypte" data-i18n="Égypte">Égypte</option>
+          <option value="Irak" data-i18n="Irak">Irak</option>
+          <option value="Yémen" data-i18n="Yémen">Yémen</option>
+          <option value="Autre" data-i18n="Autre">Autre</option>
         </select>
       </div>
 
       <div class="field">
-        <label>Niveau d'étude souhaitée en Malaisie <span class="required">*</span></label>
+        <label data-i18n="level">Niveau d'étude souhaitée en Malaisie <span class="required">*</span></label>
         <select name="level" required>
           <option value="" disabled selected></option>
-          <option>Foundation (Prépa)</option>
-          <option>Diploma (Licence 2)</option>
-          <option>Bachelor (Licence 3)</option>
-          <option>Master Coursework</option>
-          <option>Master Research</option>
-          <option>PhD (Doctorat)</option>
+          <option value="Foundation (Prépa)" data-i18n="Foundation (Prépa)">Foundation (Prépa)</option>
+          <option value="Diploma (Licence 2)">Diploma (Licence 2)</option>
+          <option value="Bachelor (Licence 3)">Bachelor (Licence 3)</option>
+          <option value="Master Coursework">Master Coursework</option>
+          <option value="Master Research">Master Research</option>
+          <option value="PhD (Doctorat)" data-i18n="PhD (Doctorat)">PhD (Doctorat)</option>
         </select>
       </div>
 
       <div class="field">
-        <label>Nom de la Formation Souhaitée <span class="required">*</span></label>
-        <input type="text" name="program" required placeholder="Ex: Informatique, Gestion, Médecine...">
+        <label data-i18n="program">Nom de la Formation Souhaitée <span class="required">*</span></label>
+        <input type="text" name="program" required data-i18n-placeholder="programPh" placeholder="Ex: Informatique, Gestion, Médecine...">
       </div>
 
       <div class="field">
-        <label>Rentrée souhaitée <span class="required">*</span></label>
+        <label data-i18n="intake">Rentrée souhaitée <span class="required">*</span></label>
         <select name="intake" required>
           <option value="" disabled selected></option>
-          <option>Septembre 2026</option>
-          <option>Février 2027</option>
-          <option>Septembre 2027</option>
-          <option>Je ne sais pas encore</option>
+          <option value="Septembre 2026" data-i18n="Septembre 2026">Septembre 2026</option>
+          <option value="Février 2027" data-i18n="Février 2027">Février 2027</option>
+          <option value="Septembre 2027" data-i18n="Septembre 2027">Septembre 2027</option>
+          <option value="Je ne sais pas encore" data-i18n="Je ne sais pas encore">Je ne sais pas encore</option>
         </select>
       </div>
 
       <div class="field">
-        <label>Comment avez-vous entendu parler de nous ?</label>
+        <label data-i18n="source">Comment avez-vous entendu parler de nous ?</label>
         <select name="source">
           <option value="" disabled selected></option>
-          <option value="Referral">Recommandation (Referral)</option>
-          <option value="Social Media">Réseaux sociaux</option>
-          <option value="Website">Site web</option>
+          <option value="Referral" data-i18n="Referral">Recommandation (Referral)</option>
+          <option value="Social Media" data-i18n="Social Media">Réseaux sociaux</option>
+          <option value="Website" data-i18n="Website">Site web</option>
         </select>
       </div>
 
       <div class="field">
-        <label>Numéro de parrainage</label>
-        <input type="text" name="ref" placeholder="Si applicable">
+        <label data-i18n="ref">Numéro de parrainage</label>
+        <input type="text" name="ref" data-i18n-placeholder="refPh" placeholder="Si applicable">
       </div>
 
-      <button type="submit" id="submitBtn">Envoyer</button>
+      <button type="submit" id="submitBtn" data-i18n="submit">Envoyer</button>
     </form>
   </div>
 
   <div class="success" id="successMsg">
     <div class="checkmark">✓</div>
-    <h2>Merci !</h2>
-    <p>Notre équipe vous contactera sur WhatsApp ou par téléphone sous 24 heures.</p>
+    <h2 data-i18n="thanks">Merci !</h2>
+    <p data-i18n="thanksBody">Notre équipe vous contactera sur WhatsApp ou par téléphone sous 24 heures.</p>
   </div>
 
   <div class="error" id="errorMsg">
     <div class="checkmark">!</div>
-    <h2>Une erreur est survenue</h2>
-    <p>Veuillez réessayer, ou nous contacter directement sur WhatsApp.</p>
+    <h2 data-i18n="errorTitle">Une erreur est survenue</h2>
+    <p data-i18n="errorBody">Veuillez réessayer, ou nous contacter directement sur WhatsApp.</p>
   </div>
 </div>
 
 <script>
+// ---------- i18n ----------
+const TRANSLATIONS = {
+  en: {
+    title: "Start your journey to Malaysia",
+    subtitle: "In 30 seconds",
+    fullName: 'Full Name <span class="required">*</span>',
+    fullNamePh: "Enter your full name",
+    phone: 'Phone Number <span class="required">*</span>',
+    other: "🌍 Other",
+    email: "Email",
+    nationality: 'Nationality <span class="required">*</span>',
+    "Sénégal": "Senegal", "Côte d'Ivoire": "Ivory Coast", "Mali": "Mali", "Guinée": "Guinea",
+    "Niger": "Niger", "Gabon": "Gabon", "Cameroun": "Cameroon", "Burkina Faso": "Burkina Faso",
+    "Togo": "Togo", "Bénin": "Benin", "Maroc": "Morocco", "Algérie": "Algeria",
+    "Tunisie": "Tunisia", "Kenya": "Kenya", "Émirats Arabes Unis": "United Arab Emirates",
+    "Arabie Saoudite": "Saudi Arabia", "Qatar": "Qatar", "Koweït": "Kuwait", "Oman": "Oman",
+    "Bahreïn": "Bahrain", "Jordanie": "Jordan", "Liban": "Lebanon", "Égypte": "Egypt",
+    "Irak": "Iraq", "Yémen": "Yemen", "Autre": "Other",
+    level: 'Desired Level of Study in Malaysia <span class="required">*</span>',
+    "Foundation (Prépa)": "Foundation", "PhD (Doctorat)": "PhD",
+    program: 'Desired Program <span class="required">*</span>',
+    programPh: "E.g. Computer Science, Business, Medicine...",
+    intake: 'Desired Intake <span class="required">*</span>',
+    "Septembre 2026": "September 2026", "Février 2027": "February 2027",
+    "Septembre 2027": "September 2027", "Je ne sais pas encore": "Not sure yet",
+    source: "How did you hear about us?",
+    "Referral": "Referral", "Social Media": "Social Media", "Website": "Website",
+    ref: "Referral Code",
+    refPh: "If applicable",
+    submit: "Submit",
+    thanks: "Thank you!",
+    thanksBody: "Our team will contact you on WhatsApp or by phone within 24 hours.",
+    errorTitle: "Something went wrong",
+    errorBody: "Please try again, or contact us directly on WhatsApp.",
+    toggleTo: "Français"
+  },
+  fr: { toggleTo: "English" }
+};
+
+function applyLang(lang) {
+  const dict = TRANSLATIONS[lang] || {};
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key]) el.innerHTML = dict[key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (dict[key]) el.setAttribute('placeholder', dict[key]);
+  });
+  document.documentElement.lang = lang;
+
+  const toggle = document.getElementById('langToggle');
+  const params = new URLSearchParams(window.location.search);
+  const other = lang === 'en' ? 'fr' : 'en';
+  toggle.textContent = (TRANSLATIONS[lang] && TRANSLATIONS[lang].toggleTo) || (other === 'en' ? 'English' : 'Français');
+  toggle.onclick = (e) => {
+    e.preventDefault();
+    params.set('lang', other);
+    window.location.search = params.toString();
+  };
+}
+
+const currentLang = new URLSearchParams(window.location.search).get('lang') === 'en' ? 'en' : 'fr';
+applyLang(currentLang);
+
+// ---------- Submission (unchanged — same fields/values regardless of display language) ----------
 document.getElementById('intakeForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
-  btn.textContent = 'Submitting...';
+  btn.textContent = currentLang === 'en' ? 'Submitting...' : 'Envoi...';
 
   const form = e.target;
   const data = {
