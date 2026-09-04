@@ -250,13 +250,31 @@
 
       <div class="field">
         <label data-i18n="intake">Rentrée souhaitée <span class="required">*</span></label>
-        <select name="intake" required>
-          <option value="" disabled selected></option>
-          <option value="Septembre 2026" data-i18n="Septembre 2026">Septembre 2026</option>
-          <option value="Février 2027" data-i18n="Février 2027">Février 2027</option>
-          <option value="Septembre 2027" data-i18n="Septembre 2027">Septembre 2027</option>
-          <option value="Je ne sais pas encore" data-i18n="Je ne sais pas encore">Je ne sais pas encore</option>
-        </select>
+        <div class="phone-row" style="display:grid; grid-template-columns:1fr 1fr;">
+          <select name="intakePeriod" required style="border-right:1.5px solid #dfe3ee;">
+            <option value="" disabled selected></option>
+            <option value="January" data-i18n="January">Janvier</option>
+            <option value="February" data-i18n="February">Février</option>
+            <option value="March" data-i18n="March">Mars</option>
+            <option value="April" data-i18n="April">Avril</option>
+            <option value="May" data-i18n="May">Mai</option>
+            <option value="June" data-i18n="June">Juin</option>
+            <option value="July" data-i18n="July">Juillet</option>
+            <option value="August" data-i18n="August">Août</option>
+            <option value="September" data-i18n="September">Septembre</option>
+            <option value="October" data-i18n="October">Octobre</option>
+            <option value="November" data-i18n="November">Novembre</option>
+            <option value="December" data-i18n="December">Décembre</option>
+          </select>
+          <select name="intakeYear" required>
+            <option value="" disabled selected></option>
+            <option>2026</option>
+            <option>2027</option>
+            <option>2028</option>
+            <option>2029</option>
+            <option>2030</option>
+          </select>
+        </div>
       </div>
 
       <div class="field">
@@ -315,8 +333,9 @@ const TRANSLATIONS = {
     program: 'Desired Program <span class="required">*</span>',
     programPh: "E.g. Computer Science, Business, Medicine...",
     intake: 'Desired Intake <span class="required">*</span>',
-    "Septembre 2026": "September 2026", "Février 2027": "February 2027",
-    "Septembre 2027": "September 2027", "Je ne sais pas encore": "Not sure yet",
+    "January": "January", "February": "February", "March": "March", "April": "April",
+    "May": "May", "June": "June", "July": "July", "August": "August",
+    "September": "September", "October": "October", "November": "November", "December": "December",
     source: "How did you hear about us?",
     "Referral": "Referral", "Social Media": "Social Media", "Website": "Website",
     ref: "Referral Code",
@@ -372,7 +391,8 @@ document.getElementById('intakeForm').addEventListener('submit', async function(
     nationality: form.nationality.value,
     level: form.level.value,
     program: form.program.value,
-    intake: form.intake.value,
+    intakePeriod: form.intakePeriod.value,
+    intakeYear: form.intakeYear.value,
     source: form.source.value,
     // Manual referral code field, or auto-captured from URL (?ref=CODE) if present
     ref: form.ref.value || new URLSearchParams(window.location.search).get('ref') || ''
