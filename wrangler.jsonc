@@ -8,7 +8,7 @@
     "run_worker_first": ["/api/*", "/"]
   },
   "vars": {
-    "AIRTABLE_BASE_ID": "appIEjO6EflsBLYDa",
+    "AIRTABLE_BASE_ID": "appZ46v0Jvi3e6axy",
     "AIRTABLE_TABLE_NAME": "STUDENTS"
   }
 }
