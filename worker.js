@@ -43,7 +43,8 @@ async function handleSubmit(request, env) {
       "Nationalité": data.nationality || undefined,
       "Niveau d'études souhaité en Malaisie": data.level || undefined,
       "Nom de la Formation souhaité": data.program || undefined,
-      "Année de rentrée": data.intake || undefined,
+      "Période de rentrée souhaitée": data.intakePeriod || undefined,
+      "Année de rentrée": data.intakeYear || undefined,
       "Source": data.source || undefined,
       "Stage": "Enquiry",
     };
