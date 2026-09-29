@@ -184,8 +184,8 @@
           </select>
         </div>
         <div class="field">
-          <label>Religion</label>
-          <input type="text" name="religion">
+          <label>Religion <span class="required">*</span></label>
+          <input type="text" required name="religion">
         </div>
       </div>
 
@@ -259,12 +259,12 @@
       </div>
 
       <div class="field">
-        <label>Nom de l'université</label>
+        <label>Nom de l'université<span class="required uni-req" style="display:none"> *</span></label>
         <input type="text" name="university">
       </div>
 
       <div class="field">
-        <label>Diplôme obtenu (université)</label>
+        <label>Diplôme obtenu (université)<span class="required uni-req" style="display:none"> *</span></label>
         <input type="text" name="universityDiploma">
       </div>
 
@@ -281,23 +281,23 @@
       </div>
 
       <div class="field">
-        <label>Email du contact d'urgence</label>
-        <input type="email" name="emEmail">
+        <label>Email du contact d'urgence <span class="required">*</span></label>
+        <input type="email" required name="emEmail">
       </div>
 
       <div class="field">
-        <label>Numéro CNI/Passeport du contact d'urgence</label>
-        <input type="text" name="emIdNumber">
+        <label>Numéro CNI/Passeport du contact d'urgence <span class="required">*</span></label>
+        <input type="text" required name="emIdNumber">
       </div>
 
       <div class="field">
-        <label>Profession du contact d'urgence</label>
-        <input type="text" name="emProfession">
+        <label>Profession du contact d'urgence <span class="required">*</span></label>
+        <input type="text" required name="emProfession">
       </div>
 
       <div class="field">
-        <label>Adresse du contact d'urgence</label>
-        <textarea name="emAddress"></textarea>
+        <label>Adresse du contact d'urgence <span class="required">*</span></label>
+        <textarea required name="emAddress"></textarea>
       </div>
 
       <button type="submit" id="submitBtn">Envoyer mon dossier</button>
@@ -318,6 +318,17 @@
 </div>
 
 <script>
+// Université obligatoire seulement pour Master / PhD
+(function(){
+  const lvl=document.querySelector('select[name="level"]');
+  const uni=[document.querySelector('input[name="university"]'),document.querySelector('input[name="universityDiploma"]')];
+  function sync(){
+    const need=/master|phd/i.test(lvl.value||'');
+    uni.forEach(el=>el.required=need);
+    document.querySelectorAll('.uni-req').forEach(el=>el.style.display=need?'inline':'none');
+  }
+  lvl.addEventListener('change',sync); sync();
+})();
 document.getElementById('fullForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');

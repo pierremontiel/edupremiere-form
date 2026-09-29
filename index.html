@@ -193,8 +193,8 @@
       </div>
 
       <div class="field">
-        <label data-i18n="email">Email</label>
-        <input type="email" name="email" autocomplete="email" placeholder="votre@email.com">
+        <label data-i18n="email">Email <span class="required">*</span></label>
+        <input type="email" name="email" required autocomplete="email" placeholder="votre@email.com">
       </div>
 
       <div class="field">
@@ -231,8 +231,8 @@
       </div>
 
       <div class="field">
-        <label data-i18n="school">Établissement actuel</label>
-        <input type="text" name="school" data-i18n-placeholder="schoolPh" placeholder="Lycée ou université — Ex: Lycée Seydina Limamoulaye, UCAD...">
+        <label data-i18n="school">Établissement actuel <span class="required">*</span></label>
+        <input type="text" name="school" required data-i18n-placeholder="schoolPh" placeholder="Lycée ou université — Ex: Lycée Seydina Limamoulaye, UCAD...">
       </div>
 
       <div class="field">
@@ -283,8 +283,8 @@
       </div>
 
       <div class="field">
-        <label data-i18n="source">Comment avez-vous entendu parler de nous ?</label>
-        <select name="source">
+        <label data-i18n="source">Comment avez-vous entendu parler de nous ? <span class="required">*</span></label>
+        <select name="source" required>
           <option value="" disabled selected></option>
           <option value="Referral" data-i18n="Referral">Recommandation (Referral)</option>
           <option value="Social Media" data-i18n="Social Media">Réseaux sociaux</option>
@@ -324,7 +324,7 @@ const TRANSLATIONS = {
     fullNamePh: "Enter your full name",
     phone: 'Phone Number <span class="required">*</span>',
     other: "🌍 Other",
-    email: "Email",
+    email: 'Email <span class="required">*</span>',
     nationality: 'Nationality <span class="required">*</span>',
     "Sénégal": "Senegal", "Côte d'Ivoire": "Ivory Coast", "Mali": "Mali", "Guinée": "Guinea",
     "Niger": "Niger", "Gabon": "Gabon", "Cameroun": "Cameroon", "Burkina Faso": "Burkina Faso",
@@ -333,7 +333,7 @@ const TRANSLATIONS = {
     "Arabie Saoudite": "Saudi Arabia", "Qatar": "Qatar", "Koweït": "Kuwait", "Oman": "Oman",
     "Bahreïn": "Bahrain", "Jordanie": "Jordan", "Liban": "Lebanon", "Égypte": "Egypt",
     "Irak": "Iraq", "Yémen": "Yemen", "Autre": "Other",
-    school: "Current school",
+    school: 'Current school <span class="required">*</span>',
     schoolPh: "High school or university — e.g. Lycée Seydina Limamoulaye, UCAD...",
     level: 'Desired Level of Study in Malaysia <span class="required">*</span>',
     "Foundation (Prépa)": "Foundation", "PhD (Doctorat)": "PhD",
@@ -343,7 +343,7 @@ const TRANSLATIONS = {
     "January": "January", "February": "February", "March": "March", "April": "April",
     "May": "May", "June": "June", "July": "July", "August": "August",
     "September": "September", "October": "October", "November": "November", "December": "December",
-    source: "How did you hear about us?",
+    source: 'How did you hear about us? <span class="required">*</span>',
     "Referral": "Referral", "Social Media": "Social Media", "Website": "Website",
     ref: "Referral Code",
     refPh: "If applicable",
