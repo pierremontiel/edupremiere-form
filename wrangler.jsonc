@@ -5,8 +5,11 @@
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
-    "run_worker_first": ["/api/*", "/"]
+    "run_worker_first": ["/api/*", "/", "/documents", "/documents/"]
   },
+  "r2_buckets": [
+    { "binding": "UPLOADS", "bucket_name": "edupremiere-uploads" }
+  ],
   "vars": {
     "AIRTABLE_BASE_ID": "appZ46v0Jvi3e6axy",
     "AIRTABLE_TABLE_NAME": "STUDENTS"

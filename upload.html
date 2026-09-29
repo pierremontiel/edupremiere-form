@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edupremiere — Envoyer mes documents</title>
+<style>
+  :root { --navy:#364169; --teal:#369196; --mint:rgba(54,145,150,0.12); --white:#fff; --red:#b23b3b; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:linear-gradient(180deg,var(--mint) 0%,#fff 40%); color:var(--navy); min-height:100vh;
+    display:flex; justify-content:center; padding:24px 16px; }
+  .card { background:var(--white); max-width:520px; width:100%; border-radius:16px;
+    box-shadow:0 10px 40px rgba(54,65,105,.12); overflow:hidden; align-self:flex-start; }
+  .header { background:var(--navy); color:var(--white); padding:28px 24px 22px; text-align:center; }
+  .logo-img { width:60px; height:60px; border-radius:14px; margin:0 auto 12px; display:block; box-shadow:0 4px 14px rgba(0,0,0,.25); }
+  .brandname { font-size:12px; letter-spacing:3px; color:#9aa4c4; font-weight:700; margin-bottom:8px; }
+  .header h1 { margin:0 0 6px; font-size:20px; }
+  .header p { margin:0; font-size:14px; color:#cfd6e8; }
+  #langToggle { display:inline-block; margin-top:10px; font-size:12px; color:#cfd6e8; }
+  .body { padding:24px; }
+  label { display:block; font-size:13px; font-weight:600; margin-bottom:6px; }
+  .phone-row { display:flex; border:1.5px solid #dfe3ee; border-radius:8px; background:#fafbfd; overflow:hidden; }
+  .phone-row select { flex:0 0 110px; border:none; border-right:1.5px solid #dfe3ee; background:transparent; padding:11px 8px; font-size:15px; color:var(--navy); }
+  .phone-row input { flex:1; border:none; background:transparent; padding:11px 12px; font-size:15px; color:var(--navy); }
+  .phone-row input:focus, .phone-row select:focus { outline:none; }
+  button.main { width:100%; background:var(--teal); color:#fff; border:none; padding:14px; border-radius:8px; font-size:16px; font-weight:700; cursor:pointer; margin-top:16px; }
+  button.main:disabled { opacity:.6; }
+  .hint { font-size:13px; color:#6b7494; margin:10px 0 0; line-height:1.45; }
+  .msg { margin-top:12px; font-size:14px; }
+  .msg.err { color:var(--red); }
+  .hello { font-size:18px; font-weight:700; margin:0 0 4px; }
+  .doc { border:1.5px solid #e6e9f2; border-radius:10px; padding:12px 14px; margin-top:10px; display:flex; align-items:center; gap:10px; }
+  .doc .name { flex:1; font-size:14px; line-height:1.35; }
+  .doc .state { font-size:12px; color:#6b7494; display:block; margin-top:3px; }
+  .doc.done { border-color:var(--teal); background:var(--mint); }
+  .doc.done .state { color:var(--teal); font-weight:600; }
+  .doc.fail .state { color:var(--red); }
+  .add { background:var(--navy); color:#fff; border:none; border-radius:8px; padding:9px 12px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; }
+  .add:disabled { opacity:.5; }
+  .bar { height:4px; background:#e6e9f2; border-radius:4px; margin-top:6px; overflow:hidden; display:none; }
+  .bar > div { height:100%; width:0; background:var(--teal); transition:width .2s; }
+  .section { font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--teal); margin:22px 0 4px; }
+  .rules { background:#fafbfd; border-radius:10px; padding:12px 14px; font-size:13px; line-height:1.5; margin-top:18px; }
+  .rules b { color:var(--navy); }
+  .hidden { display:none; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <img src="logo.jpg" alt="Edupremiere" class="logo-img">
+    <div class="brandname">EDUPREMIERE</div>
+    <h1 data-t="title">Envoyer mes documents</h1>
+    <p data-t="subtitle">Photo ou PDF, directement depuis votre téléphone</p>
+    <a href="#" id="langToggle"></a>
+  </div>
+
+  <div class="body">
+    <!-- Step 1 -->
+    <div id="step1">
+      <label data-t="phoneLabel">Votre numéro WhatsApp</label>
+      <div class="phone-row">
+        <select id="cc">
+          <option value="+221">🇸🇳 +221</option><option value="+225">🇨🇮 +225</option><option value="+223">🇲🇱 +223</option>
+          <option value="+224">🇬🇳 +224</option><option value="+227">🇳🇪 +227</option><option value="+241">🇬🇦 +241</option>
+          <option value="+237">🇨🇲 +237</option><option value="+226">🇧🇫 +226</option><option value="+228">🇹🇬 +228</option>
+          <option value="+229">🇧🇯 +229</option><option value="+212">🇲🇦 +212</option><option value="+213">🇩🇿 +213</option>
+          <option value="+216">🇹🇳 +216</option><option value="+220">🇬🇲 +220</option><option value="+254">🇰🇪 +254</option>
+          <option value="+60">🇲🇾 +60</option><option value="+33">🇫🇷 +33</option><option value="">🌍 …</option>
+        </select>
+        <input id="phone" type="tel" placeholder="77 123 45 67" autocomplete="tel">
+      </div>
+      <p class="hint" data-t="phoneHint">Le numéro que vous avez donné à Edupremiere.</p>
+      <button class="main" id="findBtn" data-t="continue">Continuer</button>
+      <div class="msg err" id="msg1"></div>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="step2" class="hidden">
+      <p class="hello" id="hello"></p>
+      <p class="hint" id="intro"></p>
+      <div id="list"></div>
+      <div class="section" data-t="other">Autre document</div>
+      <div id="otherList"></div>
+
+      <div class="rules">
+        <b data-t="rulesTitle">Avant d'envoyer :</b><br>
+        <span data-t="r1">• Passeport : toutes les pages, couverture comprise, dans un seul PDF.</span><br>
+        <span data-t="r2">• Photo d'identité : fond blanc, format 35×45 mm, tenue formelle.</span><br>
+        <span data-t="r3">• Carte d'identité : recto et verso dans le même fichier.</span><br>
+        <span data-t="r4">• Documents lisibles, en couleur. Traductions certifiées.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="picker" accept="image/*,application/pdf" multiple class="hidden">
+
+<script>
+const T = {
+  fr: {
+    title:"Envoyer mes documents", subtitle:"Photo ou PDF, directement depuis votre téléphone",
+    phoneLabel:"Votre numéro WhatsApp", phoneHint:"Le numéro que vous avez donné à Edupremiere.",
+    continue:"Continuer", other:"Autre document", rulesTitle:"Avant d'envoyer :",
+    r1:"• Passeport : toutes les pages, couverture comprise, dans un seul PDF.",
+    r2:"• Photo d'identité : fond blanc, format 35×45 mm, tenue formelle.",
+    r3:"• Carte d'identité : recto et verso dans le même fichier.",
+    r4:"• Documents lisibles, en couleur. Traductions certifiées.",
+    hello:n=>`Bonjour ${n} 👋`, introMissing:"Voici les documents qu'il nous manque. Appuyez sur « Ajouter » pour chacun.",
+    introNone:"Nous n'attendons aucun document de votre part pour le moment. Vous pouvez tout de même envoyer un document ci-dessous.",
+    add:"Ajouter", addMore:"Ajouter encore", otherDoc:"Autre document (précisez sur WhatsApp)",
+    notFound:"Nous ne trouvons pas ce numéro. Vérifiez-le ou contactez-nous sur WhatsApp.",
+    sending:"Envoi…", sent:"Reçu ✓", compressing:"Préparation…",
+    tooLarge:"Fichier trop lourd (max 95 Mo). Envoyez-le par email à pierre.montiel@edupremiere.com",
+    dailyLimit:"Limite de 30 fichiers par jour atteinte. Réessayez demain.",
+    failed:"Échec de l'envoi. Réessayez.", toggle:"English"
+  },
+  en: {
+    title:"Send my documents", subtitle:"Photo or PDF, straight from your phone",
+    phoneLabel:"Your WhatsApp number", phoneHint:"The number you gave to Edupremiere.",
+    continue:"Continue", other:"Other document", rulesTitle:"Before sending:",
+    r1:"• Passport: all pages, including the cover, in one single PDF.",
+    r2:"• ID photo: white background, 35×45 mm, formal clothing.",
+    r3:"• ID card: front and back in the same file.",
+    r4:"• Legible colour documents. Certified translations.",
+    hello:n=>`Hello ${n} 👋`, introMissing:"These are the documents we still need. Tap “Add” for each one.",
+    introNone:"We are not waiting for any document from you right now. You can still send a document below.",
+    add:"Add", addMore:"Add more", otherDoc:"Other document (tell us on WhatsApp)",
+    notFound:"We can't find this number. Please check it or contact us on WhatsApp.",
+    sending:"Sending…", sent:"Received ✓", compressing:"Preparing…",
+    tooLarge:"File too large (max 95 MB). Please email it to pierre.montiel@edupremiere.com",
+    dailyLimit:"Limit of 30 files per day reached. Please try again tomorrow.",
+    failed:"Upload failed. Please try again.", toggle:"Français"
+  }
+};
+const lang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "fr";
+const t = T[lang];
+document.documentElement.lang = lang;
+document.querySelectorAll("[data-t]").forEach(el => { const v = t[el.dataset.t]; if (typeof v === "string") el.textContent = v; });
+const tg = document.getElementById("langToggle");
+tg.textContent = t.toggle;
+tg.onclick = e => { e.preventDefault(); const p = new URLSearchParams(location.search); p.set("lang", lang === "en" ? "fr" : "en"); location.search = p.toString(); };
+
+let fullPhone = "";
+
+document.getElementById("findBtn").onclick = async () => {
+  const btn = document.getElementById("findBtn"), msg = document.getElementById("msg1");
+  msg.textContent = "";
+  const num = document.getElementById("phone").value.trim();
+  if (!num) return;
+  fullPhone = (document.getElementById("cc").value + " " + num).trim();
+  btn.disabled = true;
+  try {
+    const r = await fetch("/api/doc-lookup", { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify({ phone: fullPhone }) });
+    const d = await r.json();
+    if (!d.found) { msg.textContent = t.notFound; btn.disabled = false; return; }
+    showList(d);
+  } catch (e) { msg.textContent = t.failed; btn.disabled = false; }
+};
+
+function showList(d) {
+  document.getElementById("step1").classList.add("hidden");
+  document.getElementById("step2").classList.remove("hidden");
+  document.getElementById("hello").textContent = t.hello(d.firstName);
+  document.getElementById("intro").textContent = d.missing.length ? t.introMissing : t.introNone;
+  const list = document.getElementById("list");
+  d.missing.forEach(m => list.appendChild(docRow(m, m)));
+  document.getElementById("otherList").appendChild(docRow(t.otherDoc, "Autre", true));
+}
+
+function docRow(label, type, multi) {
+  const row = document.createElement("div");
+  row.className = "doc";
+  row.innerHTML = `<div class="name"><span></span><span class="state"></span><div class="bar"><div></div></div></div><button class="add"></button>`;
+  row.querySelector(".name span").textContent = label;
+  const btn = row.querySelector(".add");
+  btn.textContent = t.add;
+  btn.onclick = () => {
+    const picker = document.getElementById("picker");
+    picker.value = "";
+    picker.onchange = async () => {
+      const files = [...picker.files];
+      for (const f of files) await sendFile(f, type, row);
+      if (multi || !row.classList.contains("fail")) btn.textContent = t.addMore;
+    };
+    picker.click();
+  };
+  return row;
+}
+
+async function compressImage(file) {
+  if (!file.type.startsWith("image/") || file.size < 1.5 * 1024 * 1024) return file;
+  try {
+    const img = await createImageBitmap(file);
+    const max = 2400, scale = Math.min(1, max / Math.max(img.width, img.height));
+    const c = document.createElement("canvas");
+    c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
+    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+    const blob = await new Promise(res => c.toBlob(res, "image/jpeg", 0.85));
+    return new File([blob], file.name.replace(/\.[^.]+$/, "") + ".jpg", { type: "image/jpeg" });
+  } catch (e) { return file; }
+}
+
+async function sendFile(file, type, row) {
+  const state = row.querySelector(".state"), bar = row.querySelector(".bar"), fill = bar.firstElementChild;
+  row.classList.remove("fail");
+  state.textContent = t.compressing;
+  const f = await compressImage(file);
+  if (f.size > 95 * 1024 * 1024) { row.classList.add("fail"); state.textContent = t.tooLarge; return; }
+  bar.style.display = "block"; fill.style.width = "0";
+  state.textContent = t.sending;
+  const q = new URLSearchParams({ phone: fullPhone, type, name: f.name });
+  await new Promise(resolve => {
+    const x = new XMLHttpRequest();
+    x.open("PUT", "/api/doc-upload?" + q.toString());
+    x.setRequestHeader("Content-Type", f.type || "application/octet-stream");
+    x.upload.onprogress = e => { if (e.lengthComputable) fill.style.width = (100 * e.loaded / e.total) + "%"; };
+    x.onload = () => {
+      bar.style.display = "none";
+      if (x.status === 200) { row.classList.add("done"); state.textContent = t.sent; }
+      else {
+        row.classList.add("fail");
+        state.textContent = x.status === 413 ? t.tooLarge : x.status === 429 ? t.dailyLimit : t.failed;
+      }
+      resolve();
+    };
+    x.onerror = () => { bar.style.display = "none"; row.classList.add("fail"); state.textContent = t.failed; resolve(); };
+    x.send(f);
+  });
+}
+</script>
+</body>
+</html>

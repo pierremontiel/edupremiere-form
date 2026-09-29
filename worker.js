@@ -9,6 +9,15 @@ export default {
     if (url.pathname === "/api/submit-full" && request.method === "POST") {
       return handleFullSubmit(request, env);
     }
+    if (url.pathname === "/documents" || url.pathname === "/documents/") {
+      return env.ASSETS.fetch(new Request(new URL("/upload.html", request.url), request));
+    }
+    if (url.pathname === "/api/doc-lookup" && request.method === "POST") return docLookup(request, env);
+    if (url.pathname === "/api/doc-upload" && request.method === "PUT") return docUpload(request, env);
+    if (url.pathname === "/api/doc-pending" && request.method === "GET") return docPending(request, env);
+    if (url.pathname === "/api/doc-file" && request.method === "GET") return docFile(request, env);
+    if (url.pathname === "/api/doc-stored" && request.method === "POST") return docStored(request, env);
+
     if (url.pathname === "/" && url.hostname === "inscription.edupremiere.com") {
      return env.ASSETS.fetch(new Request(new URL("/full-form.html", request.url), request));
    }
@@ -172,4 +181,155 @@ async function handleFullSubmit(request, env) {
   } catch (err) {
     return new Response(JSON.stringify({ error: err.message }), { status: 500 });
   }
+}
+
+
+// ======================================================================
+// Document upload (contact.edupremiere.com/documents)
+// Files go to R2 (bucket edupremiere-uploads) + a DOCUMENTS row in Airtable.
+// A Google Apps Script (runs as Pierre) pulls pending files every 10 min,
+// saves them into the student's Drive folder, then calls /api/doc-stored.
+// ======================================================================
+const MAX_UPLOAD = 95 * 1024 * 1024;     // Workers request body limit is 100 MB
+const MAX_FILES_PER_DAY = 30;
+const DOCS_TABLE = "DOCUMENTS";
+
+function json(obj, status = 200) {
+  return new Response(JSON.stringify(obj), { status, headers: { "Content-Type": "application/json" } });
+}
+
+async function findStudentByPhone(env, phone) {
+  const key = normalizePhone(phone);
+  if (key.length < 8) return null;
+  const base = `https://api.airtable.com/v0/${env.AIRTABLE_BASE_ID}/${encodeURIComponent(env.AIRTABLE_TABLE_NAME || "STUDENTS")}`;
+  const f = encodeURIComponent(`{Phone Match Key} = '${key}'`);
+  const fields = ["Nom et prénom", "Documents manquants", "Google Drive Folder"].map(x => `fields[]=${encodeURIComponent(x)}`).join("&");
+  const r = await fetch(`${base}?filterByFormula=${f}&maxRecords=1&${fields}`, {
+    headers: { "Authorization": `Bearer ${env.AIRTABLE_TOKEN}` }
+  });
+  const d = await r.json();
+  return (d.records && d.records[0]) || null;
+}
+
+function missingList(rec) {
+  const raw = (rec.fields["Documents manquants"] || "").toString();
+  if (!raw || raw === "Niveau non renseigné") return [];
+  return raw.split("\n").map(x => x.replace(/^•\s*/, "").trim()).filter(Boolean);
+}
+
+async function docLookup(request, env) {
+  try {
+    const { phone } = await request.json();
+    const rec = await findStudentByPhone(env, phone);
+    if (!rec) return json({ found: false });
+    const name = (rec.fields["Nom et prénom"] || "").trim();
+    return json({ found: true, firstName: name.split(/\s+/)[0] || "", missing: missingList(rec) });
+  } catch (e) {
+    return json({ error: e.message }, 500);
+  }
+}
+
+function airtableDocType(t) {
+  if (!t) return null;
+  if (t.startsWith("Passeport")) return "Passeport (toutes pages)";
+  if (t.startsWith("Diplôme de Master / attestation de réussite (EN)")) return "Diplôme de Master / attestation de réussite (EN) ";
+  if (t === "Autre") return null;
+  return t;
+}
+
+async function docUpload(request, env) {
+  try {
+    const url = new URL(request.url);
+    const phone = url.searchParams.get("phone") || "";
+    const type = url.searchParams.get("type") || "Autre";
+    const name = (url.searchParams.get("name") || "document").replace(/[^\p{L}\p{N}._ ()-]/gu, "_").slice(0, 120);
+    const size = parseInt(request.headers.get("Content-Length") || "0", 10);
+    if (!size) return json({ error: "empty" }, 400);
+    if (size > MAX_UPLOAD) return json({ error: "too_large" }, 413);
+
+    const rec = await findStudentByPhone(env, phone);
+    if (!rec) return json({ error: "unknown_phone" }, 403);
+
+    const day = new Date().toISOString().slice(0, 10);
+    const prefix = `${rec.id}/${day}/`;
+    const existing = await env.UPLOADS.list({ prefix, limit: MAX_FILES_PER_DAY + 1 });
+    if (existing.objects.length >= MAX_FILES_PER_DAY) return json({ error: "daily_limit" }, 429);
+
+    const studentName = (rec.fields["Nom et prénom"] || "").trim();
+    const docType = airtableDocType(type);
+
+    // 1) DOCUMENTS row
+    const docsBase = `https://api.airtable.com/v0/${env.AIRTABLE_BASE_ID}/${encodeURIComponent(DOCS_TABLE)}`;
+    const fields = {
+      "Student": [rec.id],
+      "Status": "Received – to check",
+      "Notes": `Uploaded by the student via the documents page on ${day} — file: ${name} (${(size / 1048576).toFixed(1)} MB). Waiting for transfer to Drive.`,
+    };
+    if (docType) fields["Document Type"] = docType;
+    const cr = await fetch(docsBase, {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${env.AIRTABLE_TOKEN}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ fields, typecast: true }),
+    });
+    if (!cr.ok) return json({ error: "airtable", detail: await cr.text() }, 500);
+    const docRow = await cr.json();
+
+    // 2) File -> R2 (streamed)
+    const key = `${prefix}${Date.now()}-${name}`;
+    await env.UPLOADS.put(key, request.body, {
+      httpMetadata: { contentType: request.headers.get("Content-Type") || "application/octet-stream" },
+      customMetadata: {
+        docRowId: docRow.id, studentId: rec.id, studentName,
+        folderUrl: rec.fields["Google Drive Folder"] || "", type, originalName: name, size: String(size),
+      },
+    });
+    return json({ ok: true });
+  } catch (e) {
+    return json({ error: e.message }, 500);
+  }
+}
+
+function authorized(request, env) {
+  return env.UPLOAD_SECRET && request.headers.get("X-Upload-Secret") === env.UPLOAD_SECRET;
+}
+
+async function docPending(request, env) {
+  if (!authorized(request, env)) return json({ error: "forbidden" }, 403);
+  const out = [];
+  let cursor;
+  do {
+    const page = await env.UPLOADS.list({ cursor, limit: 500, include: ["customMetadata"] });
+    for (const o of page.objects) out.push({ key: o.key, size: o.size, ...(o.customMetadata || {}) });
+    cursor = page.truncated ? page.cursor : undefined;
+  } while (cursor && out.length < 200);
+  return json({ files: out });
+}
+
+async function docFile(request, env) {
+  if (!authorized(request, env)) return json({ error: "forbidden" }, 403);
+  const key = new URL(request.url).searchParams.get("key");
+  const m = (request.headers.get("Range") || "").match(/bytes=(\d+)-(\d+)/);
+  const opts = m ? { range: { offset: +m[1], length: +m[2] - +m[1] + 1 } } : {};
+  const obj = await env.UPLOADS.get(key, opts);
+  if (!obj) return json({ error: "not_found" }, 404);
+  return new Response(obj.body, { status: m ? 206 : 200, headers: { "Content-Type": "application/octet-stream" } });
+}
+
+async function docStored(request, env) {
+  if (!authorized(request, env)) return json({ error: "forbidden" }, 403);
+  const { key, docRowId, driveFileId } = await request.json();
+  const docsBase = `https://api.airtable.com/v0/${env.AIRTABLE_BASE_ID}/${encodeURIComponent(DOCS_TABLE)}`;
+  const obj = await env.UPLOADS.head(key);
+  const meta = (obj && obj.customMetadata) || {};
+  const up = await fetch(`${docsBase}/${docRowId}`, {
+    method: "PATCH",
+    headers: { "Authorization": `Bearer ${env.AIRTABLE_TOKEN}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ fields: {
+      "Lien Drive": `https://drive.google.com/file/d/${driveFileId}/view`,
+      "Notes": `Uploaded by the student via the documents page — original file: ${meta.originalName || ""}. Saved in Drive, to be renamed/checked.`,
+    } }),
+  });
+  if (!up.ok) return json({ error: "airtable", detail: await up.text() }, 500);
+  await env.UPLOADS.delete(key);
+  return json({ ok: true });
 }
