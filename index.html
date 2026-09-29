@@ -231,12 +231,17 @@
       </div>
 
       <div class="field">
+        <label data-i18n="school">Lycée ou université actuel(le)</label>
+        <input type="text" name="school" data-i18n-placeholder="schoolPh" placeholder="Ex: Lycée Seydina Limamoulaye, UCAD...">
+      </div>
+
+      <div class="field">
         <label data-i18n="level">Niveau d'étude souhaitée en Malaisie <span class="required">*</span></label>
         <select name="level" required>
           <option value="" disabled selected></option>
           <option value="Foundation (Prépa)" data-i18n="Foundation (Prépa)">Foundation (Prépa)</option>
           <option value="Diploma (Licence 2)">Diploma (Licence 2)</option>
-          <option value="Bachelor (Licence 3)">Bachelor (Licence 3)</option>
+          <option value="Bachelor (licence 3)">Bachelor (Licence 3)</option>
           <option value="Master Coursework">Master Coursework</option>
           <option value="Master Research">Master Research</option>
           <option value="PhD (Doctorat)" data-i18n="PhD (Doctorat)">PhD (Doctorat)</option>
@@ -328,6 +333,8 @@ const TRANSLATIONS = {
     "Arabie Saoudite": "Saudi Arabia", "Qatar": "Qatar", "Koweït": "Kuwait", "Oman": "Oman",
     "Bahreïn": "Bahrain", "Jordanie": "Jordan", "Liban": "Lebanon", "Égypte": "Egypt",
     "Irak": "Iraq", "Yémen": "Yemen", "Autre": "Other",
+    school: "Current high school or university",
+    schoolPh: "E.g. Lycée Seydina Limamoulaye, UCAD...",
     level: 'Desired Level of Study in Malaysia <span class="required">*</span>',
     "Foundation (Prépa)": "Foundation", "PhD (Doctorat)": "PhD",
     program: 'Desired Program <span class="required">*</span>',
@@ -389,6 +396,7 @@ document.getElementById('intakeForm').addEventListener('submit', async function(
     phone: form.countryCode.value + ' ' + form.phone.value,
     email: form.email.value,
     nationality: form.nationality.value,
+    school: form.school.value,
     level: form.level.value,
     program: form.program.value,
     intakePeriod: form.intakePeriod.value,

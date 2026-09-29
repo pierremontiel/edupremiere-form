@@ -41,6 +41,7 @@ async function handleSubmit(request, env) {
       "Numéro WhatsApp": data.phone,
       "Email": data.email || undefined,
       "Nationalité": data.nationality || undefined,
+      "Établissement actuel": data.school || undefined,
       "Niveau d'études souhaité en Malaisie": data.level || undefined,
       "Nom de la Formation souhaité": data.program || undefined,
       "Période de rentrée souhaitée": data.intakePeriod || undefined,
@@ -50,7 +51,7 @@ async function handleSubmit(request, env) {
     };
 
     if (data.ref) {
-      fields["Numéro de Parrainage"] = data.ref;
+      fields["Code parrain utilisé"] = data.ref;
     }
 
     Object.keys(fields).forEach(k => fields[k] === undefined && delete fields[k]);
