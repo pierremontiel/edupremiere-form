@@ -294,7 +294,16 @@ function authorized(request, env) {
 }
 
 async function docPending(request, env) {
-  if (!authorized(request, env)) return json({ error: "forbidden" }, 403);
+  if (!authorized(request, env)) {
+    const got = request.headers.get("X-Upload-Secret");
+    return json({
+      error: "forbidden",
+      envSet: Boolean(env.UPLOAD_SECRET),
+      envLen: env.UPLOAD_SECRET ? env.UPLOAD_SECRET.length : 0,
+      gotLen: got ? got.length : 0,
+      matchTrimmed: Boolean(env.UPLOAD_SECRET && got && got.trim() === env.UPLOAD_SECRET.trim()),
+    }, 403);
+  }
   const out = [];
   let cursor;
   do {
