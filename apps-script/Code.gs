@@ -3,8 +3,9 @@
  *
  * Runs as Pierre every 10 minutes. For each file uploaded on
  * contact.edupremiere.com/documents it:
- *   1. copies the file into the student's Drive folder (or "00 To Sort" if the
- *      student has no folder yet), named "NEW - <Student> - <Type> - <file>",
+ *   1. copies the file into "<student folder>/00 To Sort" (creating the student
+ *      folder under 01 Students › In process if they have none yet), named
+ *      "NEW - <Student> - <Type> - <file>",
  *   2. tells the Worker it's saved (the Worker writes the Drive link in
  *      Airtable › DOCUMENTS and deletes the file from R2).
  *
@@ -15,7 +16,10 @@
  */
 
 const WORKER = 'https://contact.edupremiere.com';
-const TO_SORT_FOLDER_ID = '1mu0UvzcHA_5qVNU2SAwrUw4mO0qNUsum'; // Edupremiere Admin › 00 To Sort
+const TO_SORT_FOLDER_ID = '1mu0UvzcHA_5qVNU2SAwrUw4mO0qNUsum'; // Edupremiere Admin › 00 To Sort (fallback only)
+const STUDENTS_FOLDER_ID = '1wjaBTnd_XVkjsS8GFRTaBLWVSjkumtQZ'; // Edupremiere Admin › 01 Students
+const IN_PROCESS_FOLDER_ID = '1VhPep6kH1IyIHEFlMzQxNt8V056bqun-'; // 01 Students › In process
+const TO_SORT_NAME = '00 To Sort'; // created inside each student folder
 const CHUNK = 8 * 1024 * 1024; // 8 MB (multiple of 256 KB, required by Drive)
 
 function setup() {
@@ -58,9 +62,67 @@ function syncUploads() {
   }
 }
 
-function folderIdFor_(f) {
+// "Serigne  saliou  DIOP" and "serigne saliou diop" must match the same folder.
+function norm_(s) {
+  return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase().replace(/[^a-z0-9]+/g, '');
+}
+
+// Lazy index of every existing student folder, across In process / Enrolled /
+// Non active, built once per execution: { normalisedName: folderId }.
+let STUDENT_INDEX = null;
+function studentIndex_() {
+  if (STUDENT_INDEX) return STUDENT_INDEX;
+  STUDENT_INDEX = {};
+  const sections = DriveApp.getFolderById(STUDENTS_FOLDER_ID).getFolders();
+  while (sections.hasNext()) {
+    const kids = sections.next().getFolders();
+    while (kids.hasNext()) {
+      const k = kids.next();
+      const key = norm_(k.getName());
+      if (key && !STUDENT_INDEX[key]) STUDENT_INDEX[key] = k.getId();
+    }
+  }
+  return STUDENT_INDEX;
+}
+
+// The student's own folder: the Airtable "Google Drive Folder" link when set,
+// otherwise an existing folder matched by name, otherwise a new one under
+// "In process". Returns null only when we have no student name to work with.
+function studentFolder_(f) {
   const m = (f.folderUrl || '').match(/folders\/([A-Za-z0-9_-]+)/);
-  return m ? m[1] : TO_SORT_FOLDER_ID;
+  if (m) {
+    try { return DriveApp.getFolderById(m[1]); }
+    catch (e) { console.error('folderUrl unusable for ' + f.studentName, e); }
+  }
+  const key = norm_(f.studentName);
+  if (!key) return null;
+  const hit = studentIndex_()[key];
+  if (hit) return DriveApp.getFolderById(hit);
+  const created = DriveApp.getFolderById(IN_PROCESS_FOLDER_ID)
+    .createFolder(String(f.studentName).trim());
+  STUDENT_INDEX[key] = created.getId();
+  console.log('created student folder: ' + created.getName());
+  return created;
+}
+
+// Uploads land in "<student folder>/00 To Sort" so one student's unchecked
+// files are never mixed with another's. Top-level "00 To Sort" stays as the
+// fallback for the case where we cannot work out a student folder at all.
+function folderIdFor_(f) {
+  try {
+    const student = studentFolder_(f);
+    if (!student) return TO_SORT_FOLDER_ID;
+    const kids = student.getFolders();
+    while (kids.hasNext()) {
+      const k = kids.next();
+      if (norm_(k.getName()) === norm_(TO_SORT_NAME)) return k.getId();
+    }
+    return student.createFolder(TO_SORT_NAME).getId();
+  } catch (e) {
+    console.error('folderIdFor_ fell back to 00 To Sort for ' + f.studentName, e);
+    return TO_SORT_FOLDER_ID;
+  }
 }
 
 function transfer_(f, headers) {
