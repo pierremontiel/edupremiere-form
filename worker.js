@@ -27,6 +27,13 @@ export default {
   }
 };
 
+const INTAKE_MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const INTAKE_YEARS = ["2026","2027","2028","2029","2030","2031","2032"];
+function cleanIntake(value, allowed) {
+  const v = String(value || "").trim();
+  return allowed.includes(v) ? v : undefined;
+}
+
 function normalizePhone(phone) {
   const digits = String(phone || "").replace(/[^0-9]/g, "");
   return digits.slice(-8);
@@ -53,8 +60,8 @@ async function handleSubmit(request, env) {
       "Établissement actuel": data.school || undefined,
       "Niveau d'études souhaité en Malaisie": data.level || undefined,
       "Nom de la Formation souhaité": data.program || undefined,
-      "Période de rentrée souhaitée": data.intakePeriod || undefined,
-      "Année de rentrée": data.intakeYear || undefined,
+      "Période de rentrée souhaitée": cleanIntake(data.intakePeriod, INTAKE_MONTHS),
+      "Année de rentrée": cleanIntake(data.intakeYear, INTAKE_YEARS),
       "Source": data.source || undefined,
       "Stage": "Enquiry",
     };
@@ -135,8 +142,8 @@ async function handleFullSubmit(request, env) {
       "Adresse complète": data.address || undefined,
       "Niveau d'études souhaité en Malaisie": data.level || undefined,
       "Nom de la Formation souhaité": data.program || undefined,
-      "Période de rentrée souhaitée": data.intakePeriod || undefined,
-      "Année de rentrée": data.intakeYear || undefined,
+      "Période de rentrée souhaitée": cleanIntake(data.intakePeriod, INTAKE_MONTHS),
+      "Année de rentrée": cleanIntake(data.intakeYear, INTAKE_YEARS),
       "Nom du lycée": data.highSchool || undefined,
       "Diplôme obtenu (lycée)": data.highSchoolDiploma || undefined,
       "Nom de l'université": data.university || undefined,
